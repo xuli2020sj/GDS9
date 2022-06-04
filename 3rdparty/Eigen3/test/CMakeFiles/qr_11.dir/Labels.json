@@ -1,0 +1,16 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/x/Desktop/BaiduNetdiskWorkspace/GDS9/3rdparty/eigen/test/qr.cpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"BuildOfficial"
+		],
+		"name" : "qr_11"
+	}
+}
