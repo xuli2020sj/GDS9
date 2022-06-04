@@ -8,6 +8,13 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
 
+set(Eigen3_DIR "3rdparty/Eigen3/share/eigen3/cmake")
+
+#set(spdlog_DIR "3rdparty/spdlog/lib/cmake/spdlog")
+#find_package(spdlog)
+include_directories(3rdparty/spdlog/include)
+
+find_package (Eigen3 3.4 REQUIRED NO_MODULE)
 find_package(Qt6 COMPONENTS
         Core
         Gui
@@ -15,10 +22,12 @@ find_package(Qt6 COMPONENTS
         REQUIRED)
 
 add_executable(GDS9 src/main.cpp src/mainwindow.cpp src/mainwindow.h src/mainwindow.ui)
+
 target_link_libraries(GDS9
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        Eigen3::Eigen
         )
 
 if (WIN32)
