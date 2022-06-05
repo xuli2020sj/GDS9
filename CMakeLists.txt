@@ -6,7 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
+#set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
+set(CMAKE_PREFIX_PATH "D:/Qt/6.2.3/mingw_64/lib/cmake")
 set(Eigen3_DIR "3rdparty/Eigen3/share/eigen3/cmake")
 
 include_directories(3rdparty/spdlog/include)
@@ -17,7 +18,6 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-
 include(FetchContent)
 FetchContent_Declare(
         googletest
@@ -27,12 +27,22 @@ FetchContent_Declare(
         GIT_TAG release-1.11.0
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gtest
 )
+
+FetchContent_Declare(
+        spdlog
+        GIT_REPOSITORY https://github.com/gabime/spdlog.git
+        GIT_TAG v1.8.3
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/spdlog
+)
+
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+FetchContent_MakeAvailable(googletest spdlog)
 
-
-add_executable(GDS9 src/main.cpp src/mainwindow.cpp src/mainwindow.h src/mainwindow.ui)
+#file(GLOB_RECURSE src_glob src/*.cpp)
+file(GLOB SRC_LIST src/*.cpp)
+include_directories(src)
+add_executable(GDS9 ${SRC_LIST})
 
 target_link_libraries(GDS9
         Qt::Core
@@ -40,10 +50,11 @@ target_link_libraries(GDS9
         Qt::Widgets
         Eigen3::Eigen
         gtest
+        spdlog::spdlog
         )
 
-include(GoogleTest)
-gtest_discover_tests(GDS9)
+#include(GoogleTest)
+#gtest_discover_tests(GDS9)
 
 if (WIN32)
     set(DEBUG_SUFFIX)
@@ -73,3 +84,6 @@ if (WIN32)
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
     endforeach (QT_LIB)
 endif ()
+
+add_subdirectory(src/tests)
+add_subdirectory(src/reconstruction)

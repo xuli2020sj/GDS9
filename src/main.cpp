@@ -8,9 +8,7 @@
 
 int main(int argc, char *argv[]) {
     Eigen::MatrixXd m(2,2);
-
     QApplication a(argc, argv);
-
     MainWindow mw;
     mw.show();
     spdlog::info("hello");
