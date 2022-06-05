@@ -7,6 +7,7 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
 #include "spdlog/spdlog.h"
+#include <gtest/gtest.h>
 
 MainWindow::MainWindow(QWidget *parent) :
         QWidget(parent), ui(new Ui::MainWindow) {

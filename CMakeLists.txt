@@ -7,13 +7,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
-
 set(Eigen3_DIR "3rdparty/Eigen3/share/eigen3/cmake")
 
-#set(spdlog_DIR "3rdparty/spdlog/lib/cmake/spdlog")
-#find_package(spdlog)
 include_directories(3rdparty/spdlog/include)
-
 find_package (Eigen3 3.4 REQUIRED NO_MODULE)
 find_package(Qt6 COMPONENTS
         Core
@@ -21,7 +17,20 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        # Specify the commit you depend on and update it regularly.
+        URL https://github.com/google/googletest/archive/e2239ee6043f73722e7aa812a459f54a28552929.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+
 add_executable(GDS9 src/main.cpp src/mainwindow.cpp src/mainwindow.h src/mainwindow.ui)
+
+
 
 target_link_libraries(GDS9
         Qt::Core
