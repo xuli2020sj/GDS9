@@ -17,18 +17,19 @@ struct cell {
     std::vector<double> pos3d;
     std::vector<double> len3d;
     cell(int _index, std::vector<int>  _index3d, std::vector<double> _pos3d, std::vector<double> _len3d)
-    : index(_index), index3d(std::move(_index3d)), len3d(std::move(_len3d)), pos3d(std::move(_pos3d)) {};
+    : index(_index), index3d(_index3d), len3d(_len3d), pos3d(_pos3d) {};
 };
 
-struct det {
+class det {
+public:
     size_t index;
     std::vector<int> index3d;
     std::vector<double> pos3d;
     std::vector<double> detectionEfficiency;
     double countRate;
     det(int _index, std::vector<int> _index3d, std::vector<double> _pos3d, std::vector<double> _detectionEfficiency)
-            : index(_index), index3d(std::move(_index3d)), pos3d(std::move(_pos3d)),
-            detectionEfficiency(std::move(_detectionEfficiency)), countRate(0) {};
+            : index(_index), index3d(_index3d), pos3d(_pos3d),
+            detectionEfficiency(_detectionEfficiency), countRate(0) {};
 };
 
 class Grid {
@@ -43,13 +44,13 @@ private:
     size_t cellNum;
     std::vector<double> cellXLenList, cellYLenList, cellZLenList;
     std::vector<double> cellXPosList, cellYPosList, cellZPosList;
-    std::vector<cell*> cellList;
+    std::vector<cell> cellList;
 
     void initCellList();
     void initCellPosList();
     static void initCellLenList(std::vector<double>& ratio, std::vector<double>& cellLenList, double sumLen);
 
-    std::vector<det*> detList;
+    std::vector<det> detList;
     std::vector<std::vector<double>> effi;
     void initDetEffi();
 public:

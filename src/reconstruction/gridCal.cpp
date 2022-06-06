@@ -49,15 +49,13 @@ Grid::Grid(std::vector<double> splitX, std::vector<double> splitY, std::vector<d
 }
 
 void Grid::initCellList() {
-    cellList.resize(cellNum);
     int i = 0;
     for (int x = 0; x < gridNumOfX; x++) {
         for (int y = 0; y < gridNumOfY; y++) {
             for (int z = 0; z < gridNumOfZ; z++) {
-                auto temp = new cell(i, {x,y,z},
-                                {cellXPosList[x], cellXPosList[y], cellXPosList[z]},
-                                {cellXLenList[x], cellYLenList[y], cellZLenList[z]});
-                cellList[i] = temp;
+                cellList.emplace_back(cell(i, {x,y,z},
+                                           {cellXPosList[x], cellXPosList[y], cellXPosList[z]},
+                                           {cellXLenList[x], cellYLenList[y], cellZLenList[z]}));
                 ++i;
             }
         }
@@ -93,17 +91,20 @@ void Grid::initCellPosList() {
 }
 
 void Grid::initDetList(std::vector<double> detYPosList) {
-    detList.resize(cellNum);
+//    detList.resize(cellNum);
     int i = 0;
 
     assert(detYPosList.size() == gridNumOfY);
     for (int x = 0; x < gridNumOfX; x++) {
         for (int y = 0; y < gridNumOfY; y++) {
             for (int z = 0; z < gridNumOfZ; z++) {
-                auto temp = new det(i, {x,y,z},
-                                     {cellXPosList[x], detYPosList[y], cellZPosList[z]},
-                                    vector<double>(cellNum, 0.));
-                detList[i] = temp;
+//              detList[i] = det(i, {x,y,z},
+//                                     {cellXPosList[x], detYPosList[y], cellZPosList[z]},
+//                                    vector<double>(cellNum, 0.));
+              detList.push_back(det(i, {x,y,z},
+                                    {cellXPosList[x], detYPosList[y], cellZPosList[z]},
+                                    vector<double>(cellNum, 0.)));
+//                detList[i] = temp;
                 ++i;
             }
         }
@@ -117,12 +118,12 @@ void Grid::reconstruction_BiCGSTAB() {
 //    Eigen::MatrixXd E = Eigen::MatrixXd::Zero(cellNum, cellNum);
     Eigen::SparseMatrix<double> E(cellNum, cellNum);
     for (int i = 0; i < cellNum; i++) {
-        C(i) = detList[i]->countRate;
+        C(i) = detList[i].countRate;
     }
     spdlog::info("count rate init success");
     for (int i = 0; i < cellNum; i++) {
         for (int j = 0; j < cellNum; j++) {
-            E.insert(i,j) = detList[i]->detectionEfficiency[j];
+            E.insert(i,j) = detList[i].detectionEfficiency[j];
         }
     }
     spdlog::info("Detection Efficiency init success");
@@ -139,15 +140,15 @@ void Grid::reconstruction_BiCGSTAB() {
 
 void Grid::showAllCell() {
     for (auto c : cellList) {
-        spdlog::info("cell index {0}, 3d index {1} {2} {3} ", c->index, c->index3d[0], c->index3d[1], c->index3d[2]);
-        spdlog::info("pos {:.4f} {:.4f} {:.4f}, len {:.4f} {:.4f} {:.4f}", c->pos3d[0], c->pos3d[1], c->pos3d[2], c->len3d[0], c->len3d[1], c->len3d[2]);
+        spdlog::info("cell index {0}, 3d index {1} {2} {3} ", c.index, c.index3d[0], c.index3d[1], c.index3d[2]);
+        spdlog::info("pos {:.4f} {:.4f} {:.4f}, len {:.4f} {:.4f} {:.4f}", c.pos3d[0], c.pos3d[1], c.pos3d[2], c.len3d[0], c.len3d[1], c.len3d[2]);
     }
 }
 
 void Grid::showAllDet() {
     for (auto c : detList) {
-        spdlog::info("dec index {0}, 3d index {1} {2} {3} ", c->index, c->index3d[0], c->index3d[1], c->index3d[2]);
-        spdlog::info("pos {:.4f} {:.4f} {:.4f}", c->pos3d[0], c->pos3d[1], c->pos3d[2]);
+        spdlog::info("dec index {0}, 3d index {1} {2} {3} ", c.index, c.index3d[0], c.index3d[1], c.index3d[2]);
+        spdlog::info("pos {:.4f} {:.4f} {:.4f}", c.pos3d[0], c.pos3d[1], c.pos3d[2]);
     }
 }
 
@@ -167,7 +168,7 @@ void Grid::initDetEffi() {
 int main() {
     spdlog::info("Welcome to Calculation!");
     auto grid = Grid();
-    auto grid1 = Grid({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
+//    auto grid1 = Grid({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
     grid.showAllDet();
     grid.showAllCell();
     grid.reconstruction_BiCGSTAB();
