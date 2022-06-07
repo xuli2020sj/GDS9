@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.21)
 project(GDS9)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-#set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
-set(CMAKE_PREFIX_PATH "D:/Qt/6.2.3/mingw_64/lib/cmake")
+# 添加QT目录
+set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
+#set(CMAKE_PREFIX_PATH "D:/Qt/6.2.3/mingw_64/lib/cmake")
+
+# 添加Eigen目录
 set(Eigen3_DIR "3rdparty/Eigen3/share/eigen3/cmake")
 
-include_directories(3rdparty/spdlog/include)
+#include_directories(3rdparty/spdlog/include)
 find_package (Eigen3 3.4 REQUIRED NO_MODULE)
 find_package(Qt6 COMPONENTS
         Core
@@ -18,6 +21,7 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
+#使用cmake下载并导入第三方库
 include(FetchContent)
 FetchContent_Declare(
         googletest
@@ -39,7 +43,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest spdlog)
 
-#file(GLOB_RECURSE src_glob src/*.cpp)
 file(GLOB SRC_LIST src/*.cpp)
 include_directories(src)
 add_executable(GDS9 ${SRC_LIST})
@@ -53,8 +56,6 @@ target_link_libraries(GDS9
         spdlog::spdlog
         )
 
-#include(GoogleTest)
-#gtest_discover_tests(GDS9)
 
 if (WIN32)
     set(DEBUG_SUFFIX)
@@ -85,5 +86,5 @@ if (WIN32)
     endforeach (QT_LIB)
 endif ()
 
-add_subdirectory(src/tests)
+#add_subdirectory(src/tests)
 add_subdirectory(src/reconstruction)

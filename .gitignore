@@ -3,3 +3,5 @@
 /3rdparty/spdlog/
 /3rdparty/gtest/
 /back/
+/temp/
+/3rdparty/Eigen3/
