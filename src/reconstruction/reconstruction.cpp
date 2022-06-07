@@ -15,7 +15,7 @@ Reconstruction::Reconstruction() {
     gridNumOfX = splitX.size();
     gridNumOfY = splitY.size();
     gridNumOfZ = splitZ.size();
-    cellNum = gridNumOfX * gridNumOfY * gridNumOfX;
+    cellNum = gridNumOfX * gridNumOfY * gridNumOfZ;
     effi = vector<vector<double>>(4, vector<double>(gridNumOfY, 0));
 
     spdlog::info("Reconstruction are separated by : {0} {1} {2} ", gridNumOfX, gridNumOfY, gridNumOfZ);
@@ -33,7 +33,7 @@ Reconstruction::Reconstruction(std::vector<double> splitX, std::vector<double> s
     gridNumOfX = splitX.size();
     gridNumOfY = splitY.size();
     gridNumOfZ = splitZ.size();
-    cellNum = gridNumOfX * gridNumOfY * gridNumOfX;
+    cellNum = gridNumOfX * gridNumOfY * gridNumOfZ;
 
     spdlog::info("Reconstruction are separated by : {0} {1} {2} ", gridNumOfX, gridNumOfY, gridNumOfZ);
     initCellLenList(splitX, cellXLenList, packageXLen);
@@ -93,7 +93,6 @@ void Reconstruction::initCellPosList() {
 void Reconstruction::initDetList(std::vector<double> detYPosList) {
 //    detList.resize(cellNum);
     int i = 0;
-
     assert(detYPosList.size() == gridNumOfY);
     for (int x = 0; x < gridNumOfX; x++) {
         for (int y = 0; y < gridNumOfY; y++) {
@@ -120,22 +119,22 @@ void Reconstruction::reconstruction_BiCGSTAB() {
     for (int i = 0; i < cellNum; i++) {
         C(i) = detList[i].countRate;
     }
-    spdlog::info("count rate init success");
+    spdlog::trace("count rate init success");
     for (int i = 0; i < cellNum; i++) {
         for (int j = 0; j < cellNum; j++) {
             E.insert(i,j) = detList[i].detectionEfficiency[j];
         }
     }
-    spdlog::info("Detection Efficiency init success");
+    spdlog::trace("Detection Efficiency init success");
     Eigen::BiCGSTAB<Eigen::SparseMatrix<double>> solver;
     solver.compute(E);
     A = solver.solve(C);
     A.resize(1, cellNum);
     totalActivity_BiCGSTAB = A.sum();
-    std::cout << "#iterations:     " << solver.iterations() << std::endl;
-    std::cout << "estimated error: " << solver.error()      << std::endl;
+    spdlog::info("#iterations:     {0}", solver.iterations());
+    spdlog::info("estimated error:   {0}", solver.error());
     std::cout << "The activity matrix is:\n" << A << std::endl;
-    std::cout << "The total activity calculated by BiCGSTAB is: " << A.sum() << std::endl;
+    spdlog::info("The total activity calculated by BiCGSTAB is: {0}",  A.sum());
 }
 
 void Reconstruction::showAllCell() {
@@ -165,12 +164,12 @@ void Reconstruction::initDetEffi() {
 
 }
 
-int main() {
-    spdlog::info("Welcome to Calculation!");
-    auto grid = Reconstruction();
-//    auto grid1 = Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
-    grid.showAllDet();
-    grid.showAllCell();
-    grid.reconstruction_BiCGSTAB();
-    spdlog::info("Calculation finished");
-}
+//int main() {
+//    spdlog::info("Welcome to Calculation!");
+//    auto grid = Reconstruction();
+////    auto grid1 = Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
+//    grid.showAllDet();
+//    grid.showAllCell();
+//    grid.reconstruction_BiCGSTAB();
+//    spdlog::info("Calculation finished");
+//}

@@ -18,11 +18,7 @@ settings::~settings() {
     delete ui;
 }
 
-/**
- *
- */
 void settings::buttonBoxClicked() {
     emit settingDone(true);
     this->close();
-
 }

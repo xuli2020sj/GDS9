@@ -14,10 +14,10 @@
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    controller = &controller::getController();
     uiCentral = new CentralWidget(this);
     this->setCentralWidget(uiCentral);
     connect(ui->actionMeasureSetting, SIGNAL(triggered()), this, SLOT(openSettingWin()));
-
 }
 
 MainWindow::~MainWindow() {
@@ -34,7 +34,10 @@ void MainWindow::openSettingWin() {
     uiSettings->show();
 }
 
-
 void MainWindow::initReconstruction() {
     uiCentral->ui->pushButtonReconstruction->setEnabled(true);
+    controller->initReconstruction();
+    controller->startReconstruction();
 }
+
+

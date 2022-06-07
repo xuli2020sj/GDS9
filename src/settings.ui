@@ -72,22 +72,46 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_2"/>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="text">
+       <string>2438</string>
+      </property>
+     </widget>
     </item>
     <item row="1" column="2">
-     <widget class="QLineEdit" name="lineEdit_3"/>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="text">
+       <string>1,1,1,1,1</string>
+      </property>
+     </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_4"/>
+     <widget class="QLineEdit" name="lineEdit_4">
+      <property name="text">
+       <string>1926</string>
+      </property>
+     </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QLineEdit" name="lineEdit_5"/>
+     <widget class="QLineEdit" name="lineEdit_5">
+      <property name="text">
+       <string>1,1,2,3</string>
+      </property>
+     </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_6"/>
+     <widget class="QLineEdit" name="lineEdit_6">
+      <property name="text">
+       <string>1331</string>
+      </property>
+     </widget>
     </item>
     <item row="3" column="2">
-     <widget class="QLineEdit" name="lineEdit_7"/>
+     <widget class="QLineEdit" name="lineEdit_7">
+      <property name="text">
+       <string>1,1,1</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -107,9 +131,9 @@
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>200</y>
-     <width>160</width>
+     <x>40</x>
+     <y>190</y>
+     <width>201</width>
      <height>31</height>
     </rect>
    </property>
@@ -122,7 +146,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="text">
+       <string>0, -50, -100, -150</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

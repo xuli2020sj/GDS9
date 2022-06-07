@@ -6,14 +6,14 @@
 #define GDS9_CONTROLLER_H
 
 #include "reconstruction/reconstruction.h"
+#include "spdlog/spdlog.h"
 
 class controller {
 private:
     controller()= default;
     ~controller() = default;
-
-    Reconstruction *re = nullptr;
 public:
+    Reconstruction *re = nullptr;
     controller(const controller&) = delete;
     controller& operator=(const controller&) = delete;
 
@@ -22,7 +22,7 @@ public:
         return instance;
     }
 
-    void startReconstruction();
+    void startReconstruction() const;
     void initReconstruction();
 
 };

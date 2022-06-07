@@ -7,7 +7,8 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    spdlog::info("Program Start");
+    spdlog::set_level(spdlog::level::trace);
+    spdlog::debug("Program Start");
     MainWindow mw;
     mw.show();
     return QApplication::exec();

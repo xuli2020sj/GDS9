@@ -43,7 +43,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest spdlog)
 
-file(GLOB SRC_LIST src/*.cpp)
+file(GLOB SRC_LIST src/*.cpp src/reconstruction/*.cpp)
 include_directories(src)
 add_executable(GDS9 ${SRC_LIST})
 
@@ -87,4 +87,4 @@ if (WIN32)
 endif ()
 
 #add_subdirectory(src/tests)
-add_subdirectory(src/reconstruction)
+#add_subdirectory(src/reconstruction)
