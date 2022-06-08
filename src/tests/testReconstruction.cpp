@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 #include "reconstruction/reconstruction.h"
 
-
 class ReconstructionTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -21,6 +20,8 @@ TEST_F(ReconstructionTest, IsEmptyInitially) {
 #include "gtest/gtest.h"
 
 int add(int a, int b) {
+
+
     return a + b;
 }
 
