@@ -60,8 +60,8 @@ public:
                    std::vector<double> detYPosList, std::vector<double> _pos, std::vector<double> _gridNum3d, std::vector<double> _packageLen3d);
     void initDetList(std::vector<double> detYPosList);
     void setEffi(std::vector<std::vector<double>> eff);
-    void reconstruction_MLEM();
-    void reconstruction_BiCGSTAB();
+    double reconstruction_MLEM();
+    double reconstruction_BiCGSTAB();
     void showAllCell();
     void showAllDet();
     std::vector<std::vector<double>> generateMotionPath();

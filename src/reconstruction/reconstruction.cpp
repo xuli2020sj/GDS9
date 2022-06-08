@@ -78,7 +78,7 @@ void Reconstruction::initCellPosList() {
     cellXPosList[0] = cellXLenList[0] / 2 + pos[0];
     cellYPosList[0] = cellYLenList[0] / 2 + pos[1];
     cellZPosList[0] = cellZLenList[0] / 2 + pos[2];
-    spdlog::debug("cell pos {0} {1} {2}", cellXPosList[0], cellYPosList[0], cellZPosList[0]);
+
     for (int i = 1; i < gridNumOfX; i++) {
         cellXPosList[i] = cellXPosList[i-1] + cellXLenList[i];
     }
@@ -111,7 +111,7 @@ void Reconstruction::initDetList(std::vector<double> detYPosList) {
     spdlog::info("init DetList success");
 }
 
-void Reconstruction::reconstruction_BiCGSTAB() {
+double Reconstruction::reconstruction_BiCGSTAB() {
     Eigen::MatrixXd C = Eigen::MatrixXd::Zero(cellNum, 1);
     Eigen::MatrixXd A = Eigen::MatrixXd::Zero(cellNum, 1);
 //    Eigen::MatrixXd E = Eigen::MatrixXd::Zero(cellNum, cellNum);
@@ -135,6 +135,7 @@ void Reconstruction::reconstruction_BiCGSTAB() {
     spdlog::info("estimated error:   {0}", solver.error());
     std::cout << "The activity matrix is:\n" << A << std::endl;
     spdlog::info("The total activity calculated by BiCGSTAB is: {0}",  A.sum());
+    return A.sum();
 }
 
 void Reconstruction::showAllCell() {
@@ -151,8 +152,8 @@ void Reconstruction::showAllDet() {
     }
 }
 
-void Reconstruction::reconstruction_MLEM() {
-
+double Reconstruction::reconstruction_MLEM() {
+    return 0.0;
 }
 
 void Reconstruction::setEffi(std::vector<std::vector<double>> eff) {

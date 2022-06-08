@@ -72,42 +72,42 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="lineEdit_XLen">
       <property name="text">
        <string>2438</string>
       </property>
      </widget>
     </item>
     <item row="1" column="2">
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="lineEdit_XSplit">
       <property name="text">
        <string>1,1,1,1,1</string>
       </property>
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_4">
+     <widget class="QLineEdit" name="lineEdit_YLen">
       <property name="text">
        <string>1926</string>
       </property>
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QLineEdit" name="lineEdit_5">
+     <widget class="QLineEdit" name="lineEdit_YSplit">
       <property name="text">
        <string>1,1,2,3</string>
       </property>
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_6">
+     <widget class="QLineEdit" name="lineEdit_ZLen">
       <property name="text">
        <string>1331</string>
       </property>
      </widget>
     </item>
     <item row="3" column="2">
-     <widget class="QLineEdit" name="lineEdit_7">
+     <widget class="QLineEdit" name="lineEdit_ZSplit">
       <property name="text">
        <string>1,1,1</string>
       </property>
@@ -146,7 +146,7 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="lineEdit_DecDistance">
       <property name="text">
        <string>0, -50, -100, -150</string>
       </property>
