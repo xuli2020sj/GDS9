@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/efficiencyCalib/CellCalculation.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/efficiencyCalib/CellCalculation.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/efficiencyCalib/DECalculation.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/CellCalculation.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/CellCalculation.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/DECalculation.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/DECalculation.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/MA_Coef.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/TriData.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/efficiency_calculation/TriData.h" charset="GBK" />
   </component>
 </project>

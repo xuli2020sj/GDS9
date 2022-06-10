@@ -1,4 +1,6 @@
+#include <iostream>
 #include "gtest/gtest.h"
+
 #include "reconstruction/reconstruction.h"
 
 class ReconstructionTest : public ::testing::Test {
@@ -15,9 +17,6 @@ TEST_F(ReconstructionTest, IsEmptyInitially) {
 
     EXPECT_EQ(re->reconstruction_BiCGSTAB(), 0);
 }
-
-#include <iostream>
-#include "gtest/gtest.h"
 
 int add(int a, int b) {
 

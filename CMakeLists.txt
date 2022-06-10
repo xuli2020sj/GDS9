@@ -56,6 +56,7 @@ target_link_libraries(GDS9
         spdlog::spdlog
         )
 
+# 测试模块
 file(GLOB TEST_SRC_LIST src/tests/*.cpp src/reconstruction/*.cpp)
 add_executable(test ${TEST_SRC_LIST} )
 target_link_libraries(test
@@ -64,34 +65,37 @@ target_link_libraries(test
         spdlog::spdlog
         )
 
-#if (WIN32)
-#    set(DEBUG_SUFFIX)
-##    if (CMAKE_BUILD_TYPE MATCHES "Debug")
-##        set(DEBUG_SUFFIX "d")
-##    endif ()
-#    set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
-#    if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-#        set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-#        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-#            set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-#        endif ()
+if (WIN32)
+    set(DEBUG_SUFFIX)
+#    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+#        set(DEBUG_SUFFIX "d")
 #    endif ()
-#    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
-#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#                COMMAND ${CMAKE_COMMAND} -E make_directory
-#                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#                COMMAND ${CMAKE_COMMAND} -E copy
-#                "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
-#                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-#    endif ()
-#    foreach (QT_LIB Core Gui Widgets)
-#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#                COMMAND ${CMAKE_COMMAND} -E copy
-#                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
-#                "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
-#    endforeach (QT_LIB)
-#endif ()
+    set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
+    if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
+        set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
+        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
+            set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
+        endif ()
+    endif ()
+    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E make_directory
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
+    endif ()
+    foreach (QT_LIB Core Gui Widgets)
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+    endforeach (QT_LIB)
+endif ()
 
 #add_subdirectory(src/tests)
 #add_subdirectory(src/reconstruction)
+add_subdirectory(src/efficiency_calculation)
+add_subdirectory(src/data_acquisition)
+
