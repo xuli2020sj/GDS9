@@ -1,7 +1,6 @@
 #include <iostream>
 #include "gtest/gtest.h"
-
-#include "reconstruction/reconstruction.h"
+#include "reconstruction.h"
 
 class ReconstructionTest : public ::testing::Test {
 protected:
@@ -19,8 +18,6 @@ TEST_F(ReconstructionTest, IsEmptyInitially) {
 }
 
 int add(int a, int b) {
-
-
     return a + b;
 }
 

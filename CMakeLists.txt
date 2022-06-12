@@ -7,13 +7,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # 添加QT目录
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
 #set(CMAKE_PREFIX_PATH "D:/Qt/6.2.3/mingw_64/lib/cmake")
 
 # 添加Eigen目录
 set(Eigen3_DIR "3rdparty/Eigen3/share/eigen3/cmake")
-
-#include_directories(3rdparty/spdlog/include)
 find_package (Eigen3 3.4 REQUIRED NO_MODULE)
 find_package(Qt6 COMPONENTS
         Core
@@ -21,47 +20,18 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-#使用cmake下载并导入第三方库
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        # Specify the commit you depend on and update it regularly.
-        #URL https://github.com/google/googletest/archive/e2239ee6043f73722e7aa812a459f54a28552929.zip
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG release-1.11.0
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gtest
-)
-
-FetchContent_Declare(
-        spdlog
-        GIT_REPOSITORY https://github.com/gabime/spdlog.git
-        GIT_TAG v1.8.3
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/spdlog
-)
-
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest spdlog)
+include(gtest)
+include(spdlog)
 
 file(GLOB SRC_LIST src/*.cpp src/reconstruction/*.cpp)
-include_directories(src)
-add_executable(GDS9 ${SRC_LIST})
 
+add_executable(GDS9 ${SRC_LIST})
 target_link_libraries(GDS9
         Qt::Core
         Qt::Gui
         Qt::Widgets
         Eigen3::Eigen
         gtest
-        spdlog::spdlog
-        )
-
-# 测试模块
-file(GLOB TEST_SRC_LIST src/tests/*.cpp src/reconstruction/*.cpp)
-add_executable(test ${TEST_SRC_LIST} )
-target_link_libraries(test
-        gtest
-        Eigen3::Eigen
         spdlog::spdlog
         )
 
@@ -94,8 +64,21 @@ if (WIN32)
     endforeach (QT_LIB)
 endif ()
 
-#add_subdirectory(src/tests)
-#add_subdirectory(src/reconstruction)
-add_subdirectory(src/efficiency_calculation)
-add_subdirectory(src/data_acquisition)
+
+#add_subdirectory(src/efficiency_calculation)
+
+set(DataAcquisition ON)
+option(DataAcquisition "option for DataAcquisition" OFF)
+if (DataAcquisition)
+    add_subdirectory(src/data_acquisition)
+    message("DataAcquisition module on")
+endif()
+
+set(TESTS ON)
+option(TESTS "option for test" OFF)
+if (TESTS)
+    message("test module on")
+    add_subdirectory(src/tests)
+endif()
+
 

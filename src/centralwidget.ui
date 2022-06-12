@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>reconstruction</string>
+    <string>reconstruction_model_</string>
    </property>
    <property name="default">
     <bool>false</bool>

@@ -760,8 +760,8 @@ protected:
     S7Object Client;
 public:
 	TS7Client();
-	~TS7Client();
-    // Control functions
+	virtual ~TS7Client();
+    virtual// Control functions
     int Connect();
     int ConnectTo(const char *RemAddress, int Rack, int Slot);
     int SetConnectionParams(const char *RemAddress, word LocalTSAP, word RemoteTSAP);

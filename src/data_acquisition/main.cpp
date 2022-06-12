@@ -3,13 +3,16 @@
 //
 
 #include "motion_proxy.h"
-#include "snap7.h"
 #include <iostream>
+#include "spdlog/spdlog.h"
 using namespace std;
 
 int main() {
-//    MotionProxy mp;
-//    mp.ConnectTo("192.168.13.13", 0, 0);
+    spdlog::set_level(spdlog::level::trace);
+    auto mp = MotionProxy::getMotionProxy();
 
+    mp->setIp("192.168.13.13");
+    cout << mp->Connect();
+//    mp->synAxisState();
     std::cout << "end";
 }

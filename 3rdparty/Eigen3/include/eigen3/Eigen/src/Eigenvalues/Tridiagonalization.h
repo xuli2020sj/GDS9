@@ -174,7 +174,7 @@ template<typename MatrixType_> class Tridiagonalization
       * the member function compute(const MatrixType&) has been called before
       * to compute the tridiagonal decomposition of a matrix.
       *
-      * The Householder coefficients allow the reconstruction of the matrix
+      * The Householder coefficients allow the reconstruction_model_ of the matrix
       * \f$ Q \f$ in the tridiagonal decomposition from the packed data.
       *
       * Example: \include Tridiagonalization_householderCoefficients.cpp

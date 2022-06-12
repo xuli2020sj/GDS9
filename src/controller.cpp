@@ -5,10 +5,13 @@
 #include "controller.h"
 
 void controller::startReconstruction() const {
-    spdlog::trace("start reconstruction");
-    re->reconstruction_BiCGSTAB();
+    spdlog::trace("start reconstruction_model_");
+    reconstruction_model_->reconstruction_BiCGSTAB();
 }
 void controller::initReconstruction() {
-    re = new Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
-    spdlog::trace("reconstruction object created");
+    reconstruction_model_ = new Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
+    spdlog::trace("reconstruction_model_ object created");
+}
+controller::~controller() {
+    delete reconstruction_model_;
 }

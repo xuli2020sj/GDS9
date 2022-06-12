@@ -173,7 +173,7 @@ template<typename MatrixType_> class HessenbergDecomposition
       * or the member function compute(const MatrixType&) has been called
       * before to compute the Hessenberg decomposition of a matrix.
       *
-      * The Householder coefficients allow the reconstruction of the matrix
+      * The Householder coefficients allow the reconstruction_model_ of the matrix
       * \f$ Q \f$ in the Hessenberg decomposition from the packed data.
       *
       * \sa packedMatrix(), \ref Householder_Module "Householder module"

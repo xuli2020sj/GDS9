@@ -38,7 +38,7 @@ TS7Client::TS7Client()
     Client=Cli_Create();
 }
 //---------------------------------------------------------------------------
-TS7Client::~TS7Client()
+ TS7Client::~TS7Client()
 {
     Cli_Destroy(&Client);
 }
