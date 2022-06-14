@@ -9,6 +9,14 @@
 #include "reconstruction/reconstruction.h"
 #include "spdlog/spdlog.h"
 
+enum {
+    state_idle,
+    state_data_acquisition,
+    state_efficiency_calculation,
+    state_reconstruction,
+    state_finished
+};
+
 class controller {
 private:
     controller()= default;
@@ -21,9 +29,11 @@ public:
         return instance;
     }
 
+    MotionProxy *mp_model_ = nullptr;
+
     Reconstruction *reconstruction_model_ = nullptr;
-    void startReconstruction() const;
     void initReconstruction();
+    void startReconstruction() const;
 };
 
 #endif //GDS9_CONTROLLER_H

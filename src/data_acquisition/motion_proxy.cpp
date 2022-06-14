@@ -29,45 +29,32 @@ int MotionProxy::Connect() {
     return TS7Client::ConnectTo(ip_, 0, 1);
 }
 
-void MotionProxy::executeCmdQueue(CommandQueue *cmd_queue) {
-    size_t cmd_num = cmd_queue->getSize();
-    if (cmd_num == 0) return ;
-    for (int i = 0; i < cmd_num; i++) {
-        cmd_queue->getCommand()->executeMotion();
-        cmd_queue->getCommand()->executeDetection();
-    }
-}
 
 /**
  * 需要使用单独线程启动，读取PLC数据，并解析数据到类Axis中
  */
 void MotionProxy::synAxisState() {
+    std::vector<std::string> RBString(68);
     while(true) {
-        std::vector<std::string> RBString(68);
-        if (this->Connected())
-        {
+        if (this->Connected()) {
             this->ReadArea(0x84, 1, 0, 68, 0x02, &read_buffer_);
             for (int index = 0; index < 68 ; index++) {
-                //controller->readVal(0x84, 1, index, 1, 0x02, &RBuffer[index]);
-//                RBString[index] = QString("%1").arg(QString::number(RBuffer[index],10).toUInt(), 8, 2, QLatin1Char('0'));
-                RBString[index] = convertToBase2(read_buffer_[index]);
-                //                char *res = nullptr;
-//                itoa(read_buffer_[index], res, 2);
-//                RBString[index] = res;
-                spdlog::trace("index: {} string: {}", index, RBString[index]);
+                RBString[index] = util::convertToBase2(read_buffer_[index]);
+//                spdlog::trace("index: {} string: {}", index, RBString[index]);
             }
         }
         else {
             this->Connect();
         }
         dataProcess(RBString);
-        sleep(5);
+        if (termite_flag) return;
+        sleep(flush_time);
     }
 }
 
 /**
  * 解析读取到的PLC数据块
- * @param db_data
+ * @param db_data 68Byte 数据
  */
 void MotionProxy::dataProcess(std::vector<std::string> db_data) {
     std::string dbs2 = db_data[43];
@@ -78,39 +65,39 @@ void MotionProxy::dataProcess(std::vector<std::string> db_data) {
     std::string dbX5 = db_data[5];
 
     std::string currentXPos = db_data[44] + db_data[45] + db_data[46] +db_data[47];
-    this->x_axis_.setCurrentPosition(binToFloat(currentXPos));
+    this->x_axis_.setCurrentPosition(util::binToFloat(currentXPos));
     auto currentYPos = db_data[48] + db_data[49] + db_data[50] +db_data[51];
-    this->y_axis_.setCurrentPosition(binToFloat(currentYPos));
+    this->y_axis_.setCurrentPosition(util::binToFloat(currentYPos));
     auto currentZPos = db_data[52] + db_data[53] + db_data[54] +db_data[55];
-    this->z_axis_.setCurrentPosition(binToFloat(currentZPos));
+    this->z_axis_.setCurrentPosition(util::binToFloat(currentZPos));
 
     auto currentXSpeed = db_data[56] + db_data[57] + db_data[58] + db_data[59];
-    this->x_axis_.setCurrentSpeed(binToFloat(currentXSpeed));
+    this->x_axis_.setCurrentSpeed(util::binToFloat(currentXSpeed));
     auto currentYSpeed = db_data[60] + db_data[61] + db_data[62] + db_data[63];
-    this->y_axis_.setCurrentSpeed(binToFloat(currentYSpeed));
+    this->y_axis_.setCurrentSpeed(util::binToFloat(currentYSpeed));
     auto currentZSpeed = db_data[64] + db_data[65] + db_data[66] + db_data[67];
-    this->z_axis_.setCurrentSpeed(binToFloat(currentZSpeed));
+    this->z_axis_.setCurrentSpeed(util::binToFloat(currentZSpeed));
 
     auto targetXAbsolutePos = db_data[6] + db_data[7] + db_data[8] + db_data[9];
-    this->x_axis_.setTargetAbsoltePosition(binToFloat(targetXAbsolutePos));
+    this->x_axis_.setTargetAbsoltePosition(util::binToFloat(targetXAbsolutePos));
     auto targetYAbsolutePos = db_data[10] + db_data[11] + db_data[12] + db_data[13];
-    this->y_axis_.setTargetAbsoltePosition(binToFloat(targetYAbsolutePos));
+    this->y_axis_.setTargetAbsoltePosition(util::binToFloat(targetYAbsolutePos));
     auto targetZAbsolutePos = db_data[14] + db_data[15] + db_data[16] + db_data[17];
-    this->z_axis_.setTargetAbsoltePosition(binToFloat(targetZAbsolutePos));
+    this->z_axis_.setTargetAbsoltePosition(util::binToFloat(targetZAbsolutePos));
 
     auto targetXRelativePos = db_data[18] + db_data[19] + db_data[20] + db_data[21];
-    this->x_axis_.setTargetRelativePosition(binToFloat(targetXRelativePos));
+    this->x_axis_.setTargetRelativePosition(util::binToFloat(targetXRelativePos));
     auto targetYRelativePos = db_data[22] + db_data[23] + db_data[24] + db_data[25];
-    this->y_axis_.setTargetRelativePosition(binToFloat(targetYRelativePos));
+    this->y_axis_.setTargetRelativePosition(util::binToFloat(targetYRelativePos));
     auto targetZRelativePos = db_data[26] + db_data[27] + db_data[28] + db_data[29];
-    this->z_axis_.setTargetRelativePosition(binToFloat(targetZRelativePos));
+    this->z_axis_.setTargetRelativePosition(util::binToFloat(targetZRelativePos));
 
     auto targetXSpeed = db_data[30] + db_data[31] + db_data[32] + db_data[33];
-    this->x_axis_.setTargetSpeed(binToFloat(targetXSpeed));
+    this->x_axis_.setTargetSpeed(util::binToFloat(targetXSpeed));
     auto targetYSpeed = db_data[30] + db_data[31] + db_data[32] + db_data[33];
-    this->y_axis_.setTargetSpeed(binToFloat(targetYSpeed));
+    this->y_axis_.setTargetSpeed(util::binToFloat(targetYSpeed));
     auto targetZSpeed = db_data[30] + db_data[31] + db_data[32] + db_data[33];
-    this->z_axis_.setTargetSpeed(binToFloat(targetZSpeed));
+    this->z_axis_.setTargetSpeed(util::binToFloat(targetZSpeed));
 
     this->x_axis_.setIsReady(stoi(db_data[42].substr(3, 1)));
     this->y_axis_.setIsReady(stoi(db_data[42].substr(2,1)));
@@ -170,38 +157,7 @@ void MotionProxy::dataProcess(std::vector<std::string> db_data) {
     this->x_axis_.setLocalOrRemoteState(stoi(db_data[42].substr(7,1)));
 }
 
-/**
- *
- * @param num
- * @return 八位二进制数字符串,高位补零
- */
-std::string MotionProxy::convertToBase2(uint8_t num) {
-    if (num == 0) return "00000000";
-    std::string res;
-    while (num > 0) {
-        res.push_back(num % 2 + '0');
-        num /= 2;
-    }
-    while (res.size() < 8) {
-        res.push_back('0');
-    }
-    std::reverse(res.begin(), res.end());
-    return res;
-}
 
 
 
-/**
- * 32位二进制转换为IEEE单精度浮点数数据
- * @param str
- * @return
- */
-float MotionProxy::binToFloat(const std::string& str) {
-    if (str.size() != 32) return 0.0;
-    util::float_data d;
-    d.c_data[3] = stoi(str.substr(0, 8), nullptr, 2);
-    d.c_data[2] = stoi(str.substr(8, 8), nullptr, 2);
-    d.c_data[1] = stoi(str.substr(16, 8), nullptr, 2);
-    d.c_data[0] = stoi(str.substr(24, 8), nullptr, 2);
-    return d.f_data;
-}
+

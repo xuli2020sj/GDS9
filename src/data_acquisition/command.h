@@ -6,26 +6,25 @@
 #define GDS9_COMMAND_H
 
 
-#include "detection_proxy.h"
 #include "snap7.h"
 #include "util.h"
+#include "motion_proxy.h"
+#include "detection_proxy.h"
 
+/**
+ * @brief
+ */
 class Command {
 public:
-    virtual bool doMotion(MotionProxy *mp) {
-        return true;
-    };
-
-    virtual bool doDetection(DetectionProxy *mp) {
-        return true;
-    };
+    virtual bool doMotion(MotionProxy *mp) {return true;};
+    virtual bool doDetection(DetectionProxy *mp) {return true;};
 };
 
-class startCommand : public Command {
+class StartCommand : public Command {
 public:
     bool doMotion(MotionProxy *mp) override {
         byte buffer = 1;
-        mp->WriteArea(0x84, 1, 1, 1, 0x01, &buffer);
+        return mp->WriteArea(0x84, 1, 0, 1, 0x01, &buffer);
     }
 };
 
@@ -248,17 +247,17 @@ public:
 };
 
 // 给定xyz位置速度，启动运动
-class startXYZCombo : public Command {
+class StartXYZCombo : public Command {
 public:
-    startXYZCombo(std::string xPosition, std::string yPosition, std::string zPosition, std::string xSpeed,
+    StartXYZCombo(std::string xPosition, std::string yPosition, std::string zPosition, std::string xSpeed,
                   std::string ySpeed, std::string zSpeed) {
-        this->xPosition = processReal(xPosition);
-        this->yPosition = processReal(yPosition);
-        this->zPosition = processReal(zPosition);
+        this->xPosition = util::converFloatToBin(xPosition);
+        this->yPosition = util::converFloatToBin(yPosition);
+        this->zPosition = util::converFloatToBin(zPosition);
 
-        this->xSpeed = processReal(xSpeed);
-        this->ySpeed = processReal(ySpeed);
-        this->zSpeed = processReal(zSpeed);
+        this->xSpeed = util::converFloatToBin(xSpeed);
+        this->ySpeed = util::converFloatToBin(ySpeed);
+        this->zSpeed = util::converFloatToBin(zSpeed);
     }
 
     bool doMotion(MotionProxy *mp) override {
@@ -293,18 +292,9 @@ public:
         cmdIZ->doMotion(mp);
         return 0;
     }
-
 private:
     longword xPosition, yPosition, zPosition;
     longword xSpeed, ySpeed, zSpeed;
-
-    static longword processReal(const std::string& str_float) {
-        util::float_data d;
-        d.f_data = std::stof(str_float);
-        longword buffer = d.c_data[0];
-
-        return buffer;
-    };
 };
 
 class resetXYZ : public Command {

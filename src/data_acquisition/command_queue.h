@@ -11,10 +11,10 @@
 class CommandQueue {
 private:
     std::vector<Command*> queue_;
-    size_t curr_ptr_;
+    size_t curr_ptr_ = 0;
 public:
-    void pushBack(){
-
+    void pushBack(Command* cmd) {
+        queue_.push_back(cmd);
     }
 
     /**
@@ -22,7 +22,14 @@ public:
      * @return 指令执行完毕时，返回空指针
      */
     Command* getCommand() {
-        ++curr_ptr_;
+        if (curr_ptr_ == queue_.size()) {
+            return nullptr;
+        } else {
+            return queue_.at(curr_ptr_++);
+        }
+    }
+
+    Command* peekCommand() {
         if (curr_ptr_ == queue_.size()) {
             return nullptr;
         } else {
@@ -30,8 +37,15 @@ public:
         }
     }
 
+
     size_t getSize() {
         return queue_.size();
+    }
+
+    ~CommandQueue() {
+        for (auto cmd : queue_) {
+            delete cmd;
+        }
     }
 };
 

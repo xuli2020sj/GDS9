@@ -11,6 +11,8 @@
 #include "centralwidget.h"
 #include "settings.h"
 
+#include "dataacqsettingwindow.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -29,9 +31,12 @@ private:
     settings *uiSettings = nullptr;
     controller *controller = nullptr;
 
+    DataAcqSettingWindow *uiDataAcqSettings = nullptr;
+
 public slots:
     void openSettingWin();
     void initReconstruction();
+    void openDataAcqSettingWin();
 };
 
 

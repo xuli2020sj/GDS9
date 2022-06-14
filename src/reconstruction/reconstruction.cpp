@@ -168,7 +168,7 @@ void Reconstruction::initDetEffi() {
 //int main() {
 //    spdlog::info("Welcome to Calculation!");
 //    auto grid = Reconstruction();
-////    auto grid1 = Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
+//    auto grid1 = Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
 //    grid.showAllDet();
 //    grid.showAllCell();
 //    grid.reconstruction_BiCGSTAB();

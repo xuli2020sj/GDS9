@@ -3,16 +3,12 @@
   <component name="Statistic">
     <option name="excludedDirectories">
       <list>
-        <option value="$PROJECT_DIR$/3rdparty" />
-        <option value="$PROJECT_DIR$/cmake-build-debug" />
-        <option value="$PROJECT_DIR$/out" />
         <option value="$PROJECT_DIR$/.idea" />
-        <option value="$PROJECT_DIR$/temp" />
-        <option value="$PROJECT_DIR$/.idea" />
+        <option value="$PROJECT_DIR$/cmake" />
         <option value="$PROJECT_DIR$/3rdparty" />
         <option value="$PROJECT_DIR$/cmake-build-debug" />
         <option value="$PROJECT_DIR$/resource" />
-        <option value="$PROJECT_DIR$/src/data_acquisition/cmake-build-debug" />
+        <option value="$PROJECT_DIR$/temp" />
       </list>
     </option>
   </component>

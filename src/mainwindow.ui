@@ -49,7 +49,14 @@
     </widget>
     <addaction name="menu_4"/>
    </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="actionDataAcqSetting"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_5"/>
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
   </widget>
@@ -67,6 +74,11 @@
   <action name="actionPLC">
    <property name="text">
     <string>PLC</string>
+   </property>
+  </action>
+  <action name="actionDataAcqSetting">
+   <property name="text">
+    <string>数据采集系统</string>
    </property>
   </action>
  </widget>

@@ -360,7 +360,7 @@ public:
 /////////////类定义：体
 class GCell : public GPlane {
 public:
-    GCell(void)//构造函数
+    GCell(void)
     {
         NoM = -1;//表示真空
         No = 0;

@@ -7,6 +7,7 @@
 #include "spdlog/spdlog.h"
 using namespace std;
 
+
 int main() {
     spdlog::set_level(spdlog::level::trace);
     auto mp = MotionProxy::getMotionProxy();

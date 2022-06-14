@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# 添加QT目录
+# 添加QT目录(此处需要修改成本地电脑Qt目录）
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 set(CMAKE_PREFIX_PATH "X:/Qt/6.2.1/mingw81_64/lib/cmake")
 #set(CMAKE_PREFIX_PATH "D:/Qt/6.2.3/mingw_64/lib/cmake")
@@ -22,6 +22,7 @@ find_package(Qt6 COMPONENTS
 
 include(gtest)
 include(spdlog)
+include_directories(3rdparty/snap7/src)
 
 file(GLOB SRC_LIST src/*.cpp src/reconstruction/*.cpp)
 
@@ -68,13 +69,21 @@ endif ()
 #add_subdirectory(src/efficiency_calculation)
 
 set(DataAcquisition ON)
+set(TESTS ON)
+set(EfficiencyCalculation ON)
+
 option(DataAcquisition "option for DataAcquisition" OFF)
 if (DataAcquisition)
     add_subdirectory(src/data_acquisition)
     message("DataAcquisition module on")
 endif()
 
-set(TESTS ON)
+option(EfficiencyCalculation "option for EfficiencyCalculation" OFF)
+if (EfficiencyCalculation)
+    add_subdirectory(src/efficiency_calculation)
+    message("efficiency_calculation module on")
+endif()
+
 option(TESTS "option for test" OFF)
 if (TESTS)
     message("test module on")
