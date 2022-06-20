@@ -18,6 +18,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        OpenGL
         REQUIRED)
 
 include(gtest)
@@ -31,6 +32,7 @@ target_link_libraries(GDS9
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        Qt::OpenGL
         Eigen3::Eigen
         gtest
         spdlog::spdlog

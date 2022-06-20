@@ -34,11 +34,11 @@ public:
         z = -1;
         volume = 0;
         NextX = nullptr;
-        LastX = NULL;
-        NextY = NULL;
-        LastY = NULL;
-        NextZ = NULL;
-        LastZ = NULL;
+        LastX = nullptr;
+        NextY = nullptr;
+        LastY = nullptr;
+        NextZ = nullptr;
+        LastZ = nullptr;
     }
 };
 

@@ -12,6 +12,7 @@ class DECalculation {
 protected:
     std::mt19937 mt;
     long long MaxMT;
+
     double m_Energy[MaxData];
     double m_mu[11][MaxData];
 

@@ -296,7 +296,7 @@ KDefine CellCalculation::k_InterPoint(GPoint PA, GPoint PB, GPlane P,char PM)
 {
 	KDefine KData;
 	if(P.type=='P'||P.type=='p')//平面
-	{//
+	{
 		double Left=P.A*(PB.x-PA.x)+P.B*(PB.y-PA.y)+P.C*(PB.z-PA.z);//内积
 		double Right=P.R-P.A*PA.x-P.B*PA.y-P.C*PA.z;
 		double PAD=PA.x*P.A+PA.y*P.B+PA.z*P.C-P.R;

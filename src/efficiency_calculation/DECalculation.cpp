@@ -61,7 +61,6 @@ bool DECalculation::INICalculation() {
 }
 //读取探测器数据
 bool DECalculation::ReadDetector() {
-
     return true;
 }
 //读取废物箱数据
@@ -195,6 +194,7 @@ void DECalculation::SetCellWaste() {
     //体素总数
     NuCellTotal = no;
 }
+
 //设置源的坐标
 bool DECalculation::SetSource()//////////////***********4
 {
@@ -204,7 +204,6 @@ bool DECalculation::SetSource()//////////////***********4
     EHead = TriDataB.CreatNodes(100, 1, 1, ESampleHead);
     if (!EHead) return false;
     EHead->Title = "EData.dat";
-
 
     TriDNodeDefine *nodex, *nodey, *nodez;
     nodez = EHead->FirstNode;
@@ -221,6 +220,9 @@ bool DECalculation::SetSource()//////////////***********4
     }
     return true;
 }
+
+
+
 
 
 ////////////////////////////////////////////
@@ -247,9 +249,18 @@ bool DECalculation::ECal_OnePoint() {
         }
         NodeUsedx = NodeUsedy;
     }
-    //	std::cout << "ECal_OnePoint success" << std::endl;
     return true;
 }
+
+void DECalculation::ECal_OnePoint(GPoint PA) {
+    //效率计算
+    if (!NodeUsedx) return;
+    CalculationOnePoint(1, PA, PGe);
+    for (int n = 0; n < ESampleHead->NuDataUsed; n++) {
+        NodeUsedx->data[n] = ESampleHead->FirstNode->data[n] * SumCEGeo[n] / SumCEGeo_0[n];
+    }
+}
+
 //输出结果与后处理
 void DECalculation::Output(std::string FileName) {
     if (FileName.length() < 1)//不指定文件名，用默认文件名
@@ -265,6 +276,8 @@ void DECalculation::PostProcess(std::string FileName) {
     EHead = TriDataB.ReadData(FileName);
     PostProcess();
 }
+
+
 //输出结果与后处理
 void DECalculation::PostProcess() {
     if (EHead == NULL) return;
@@ -274,16 +287,6 @@ void DECalculation::PostProcess() {
     DEPostB.EHead = EHead;
     DEPostB._PGe.SetPoint(PGe);
     DEPostB.Process();
-}
-
-
-void DECalculation::ECal_OnePoint(GPoint PA) {
-    //效率计算
-    if (!NodeUsedx) return;
-    CalculationOnePoint(1, PA, PGe);
-    for (int n = 0; n < ESampleHead->NuDataUsed; n++) {
-        NodeUsedx->data[n] = ESampleHead->FirstNode->data[n] * SumCEGeo[n] / SumCEGeo_0[n];
-    }
 }
 
 //体素内长度计算,探测器
