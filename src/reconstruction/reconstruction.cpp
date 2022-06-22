@@ -16,7 +16,7 @@ Reconstruction::Reconstruction() {
     gridNumOfY = splitY.size();
     gridNumOfZ = splitZ.size();
     cellNum = gridNumOfX * gridNumOfY * gridNumOfZ;
-    effi = vector<vector<double>>(4, vector<double>(gridNumOfY, 0));
+//    effi = vector<vector<double>>(4, vector<double>(gridNumOfY, 0));
 
     spdlog::info("Reconstruction are separated by : {0} {1} {2} ", gridNumOfX, gridNumOfY, gridNumOfZ);
     initCellLenList(splitX, cellXLenList, packageXLen);
@@ -27,6 +27,7 @@ Reconstruction::Reconstruction() {
     spdlog::info("init cell pos success");
     initCellList();
     spdlog::info("init cell list success");
+
 }
 
 Reconstruction::Reconstruction(std::vector<double> splitX, std::vector<double> splitY, std::vector<double> splitZ, std::vector<double> detYPosList) {
@@ -156,21 +157,43 @@ double Reconstruction::reconstruction_MLEM() {
     return 0.0;
 }
 
-void Reconstruction::setEffi(std::vector<std::vector<double>> eff) {
-    assert(eff.size() == effi.size());
-    effi = std::move(eff);
-}
-
 void Reconstruction::initDetEffi() {
+    for (auto det : detList) {
+        auto det_index = det.index3d;
+        auto& init_effiList = effi[det_index[1]];
+        auto& effiList = det.detectionEfficiency;
+        for (int i = 0; i <effiList.size(); i++) {
+            auto eff_index = indexto3d(i);
+            if (eff_index[0] == det_index[0]) {
 
+            }
+        }
+    }
 }
 
-//int main() {
-//    spdlog::info("Welcome to Calculation!");
-//    auto grid = Reconstruction();
-//    auto grid1 = Reconstruction({1,1,1,1,1}, {1,1,2,3}, {1,1,1},{0, -50, -100, -150});
-//    grid.showAllDet();
-//    grid.showAllCell();
-//    grid.reconstruction_BiCGSTAB();
-//    spdlog::info("Calculation finished");
-//}
+/**
+ *
+ * @param efficiency_list 第一维，探测器y方向
+ */
+void Reconstruction::setDetEffi(std::vector<std::vector<std::vector<double>>>&& efficiency_list) {
+    assert(efficiency_list.size() == 4);
+    assert(pow(efficiency_list[0].size(), 2)  == gridNumOfY);
+    effi = std::move(efficiency_list);
+    initDetEffi();
+}
+
+void Reconstruction::setDetActivity(vector<double> &CountRate_list) {
+    assert(CountRate_list.size() == detList.size());
+    for (int i = 0; i < CountRate_list.size(); i++) {
+        detList[i].countRate = CountRate_list[i];
+    }
+}
+
+std::vector<int> Reconstruction::indexto3d(int index) {
+    int x = index % (gridNumOfY * gridNumOfZ);
+    index /= x;
+    int y = index % gridNumOfZ;
+    index /= y;
+    int z = index;
+    return {x, y, z};
+}

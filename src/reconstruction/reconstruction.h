@@ -20,8 +20,7 @@ struct cell {
     : index(_index), index3d(_index3d), len3d(_len3d), pos3d(_pos3d) {};
 };
 
-class det {
-public:
+struct det {
     size_t index;
     std::vector<int> index3d;
     std::vector<double> pos3d;
@@ -29,7 +28,7 @@ public:
     double countRate;
     det(int _index, std::vector<int> _index3d, std::vector<double> _pos3d, std::vector<double> _detectionEfficiency)
             : index(_index), index3d(_index3d), pos3d(_pos3d),
-            detectionEfficiency(_detectionEfficiency), countRate(0) {};
+            detectionEfficiency(_detectionEfficiency), countRate(0) {}
 };
 
 class Reconstruction {
@@ -51,17 +50,20 @@ private:
     static void initCellLenList(std::vector<double>& ratio, std::vector<double>& cellLenList, double sumLen);
 
     std::vector<det> detList;
-    std::vector<std::vector<double>> effi;
-    void initDetEffi();
+    std::vector<std::vector<std::vector<double>>> effi;
+    std::vector<int> indexto3d(int index);
+
 public:
     Reconstruction();
     Reconstruction(std::vector<double> _splitX, std::vector<double> _splitY, std::vector<double> _splitZ, std::vector<double> detYPosList);
     Reconstruction(std::vector<double> _splitX, std::vector<double> _splitY, std::vector<double> _splitZ,
                    std::vector<double> detYPosList, std::vector<double> _pos, std::vector<double> _gridNum3d, std::vector<double> _packageLen3d);
     void initDetList(std::vector<double> detYPosList);
-    void setEffi(std::vector<std::vector<double>> eff);
+    void initDetEffi();
     double reconstruction_MLEM();
     double reconstruction_BiCGSTAB();
+    void setDetEffi(std::vector<std::vector<std::vector<double>>>&& efficiency_list);
+    void setDetActivity(std::vector<double>& CountRate_list);
     void showAllCell();
     void showAllDet();
     std::vector<std::vector<double>> generateMotionPath();

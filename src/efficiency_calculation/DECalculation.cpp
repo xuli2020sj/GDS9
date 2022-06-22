@@ -69,7 +69,7 @@ bool DECalculation::ReadWaste(void) {
     return true;
 }
 
-//设置体素 *************************** 3
+//设置体素 ***************************
 //注意：
 void DECalculation::SetCellDetector() {
     //所有单位为cm

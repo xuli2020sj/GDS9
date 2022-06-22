@@ -6,6 +6,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 include(gtest)
 include(spdlog)
 
+# 包含snap7库
 include_directories(../../3rdparty/snap7/src)
 link_directories(../../3rdparty/snap7/lib)
 file(GLOB snap7_src_list ../../3rdparty/snap7/src/*.cpp)
@@ -34,6 +35,7 @@ add_executable(efficiency_calculation_test test_efficiency_calculation.cpp
 # 重建子系统
 include_directories(../reconstruction)
 file(GLOB reconstruction_src_list ../reconstruction/*.cpp)
+list(FILTER reconstruction_src_list EXCLUDE REGEX "main.cpp$")
 
 set(Eigen3_DIR "../../3rdparty/Eigen3/share/eigen3/cmake")
 include_directories(../../3rdparty/Eigen3/include/eigen3)
